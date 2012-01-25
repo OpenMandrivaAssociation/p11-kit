@@ -4,7 +4,7 @@
 
 Name:		p11-kit
 Summary:	Load and enumerate PKCS#11 modules
-Version:	0.9
+Version:	0.10
 Release:	1
 License:	Apache License
 Group:		System/Libraries
@@ -54,7 +54,7 @@ This package contains the development files and headers for %{name}.
 %makeinstall_std
 
 #dirs for configs etc
-mkdir -p %{buildroot}%{_sysconfdir}/pkcs11/modules
+%__mkdir_p %{buildroot}%{_sysconfdir}/pkcs11/modules
 
 #ghost files
 touch %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
