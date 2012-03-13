@@ -4,7 +4,7 @@
 
 Name:		p11-kit
 Summary:	Load and enumerate PKCS#11 modules
-Version:	0.11
+Version:	0.12
 Release:	1
 License:	Apache License
 Group:		System/Libraries
