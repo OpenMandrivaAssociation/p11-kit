@@ -5,7 +5,7 @@
 Name:		p11-kit
 Summary:	Load and enumerate PKCS#11 modules
 Version:	0.12
-Release:	1
+Release:	2
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
@@ -19,11 +19,11 @@ they're discoverable.
 Also solves problems with coordinating the use of PKCS#11 by different
 components or libraries living in the same process.
 
-%package -n %{libname}
+%package -n	%{libname}
 Summary:	Library and proxy module for properly loading and sharing PKCS#11 modules
 Group:		System/Libraries
 
-%description -n %{libname}
+%description -n	%{libname}
 Provides a way to load and enumerate PKCS#11 modules. Provides a standard
 configuration setup for installing PKCS#11 modules in such a way that
 they're discoverable.
@@ -31,22 +31,21 @@ they're discoverable.
 Also solves problems with coordinating the use of PKCS#11 by different
 components or libraries living in the same process.
 
-%package -n %{devname}
+%package -n 	{devname}
 Summary:	Development files and headers for %{name}
 Group:		Development/Other
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 
-%description -n %{devname}
+%description -n	%{devname}
 This package contains the development files and headers for %{name}.
 
 %prep
 %setup -q
 
 %build
-%configure2_5x \
-	--disable-static \
-	--disable-rpath
+%configure2_5x	--disable-static \
+		--disable-rpath
 
 %make
 
@@ -58,9 +57,6 @@ This package contains the development files and headers for %{name}.
 
 #ghost files
 touch %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
-
-# we don't want these
-find %{buildroot} -name "*.la" -exec rm -rf {} \;
 
 %check
 %make check
@@ -84,5 +80,3 @@ find %{buildroot} -name "*.la" -exec rm -rf {} \;
 %{_includedir}/%{name}-1
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/%{name}-1.pc
-
-
