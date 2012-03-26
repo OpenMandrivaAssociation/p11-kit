@@ -5,7 +5,7 @@
 Name:		p11-kit
 Summary:	Load and enumerate PKCS#11 modules
 Version:	0.12
-Release:	3
+Release:	2
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
@@ -31,7 +31,7 @@ they're discoverable.
 Also solves problems with coordinating the use of PKCS#11 by different
 components or libraries living in the same process.
 
-%package -n 	{devname}
+%package -n 	%{devname}
 Summary:	Development files and headers for %{name}
 Group:		Development/Other
 Requires:	%{libname} = %{version}-%{release}
