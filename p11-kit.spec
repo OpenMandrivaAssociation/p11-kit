@@ -10,6 +10,7 @@ License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
 Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
+Patch0:		p11-kit-aarch64.patch
 
 %description
 Provides a way to load and enumerate PKCS#11 modules. Provides a standard
@@ -42,6 +43,7 @@ This package contains the development files and headers for %{name}.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %configure2_5x	--disable-static \
