@@ -4,13 +4,12 @@
 
 Name:		p11-kit
 Summary:	Load and enumerate PKCS#11 modules
-Version:	0.14
-Release:	2
+Version:	0.18.2
+Release:	1
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
 Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
-Patch0:		p11-kit-aarch64.patch
 
 %description
 Provides a way to load and enumerate PKCS#11 modules. Provides a standard
@@ -43,7 +42,7 @@ This package contains the development files and headers for %{name}.
 
 %prep
 %setup -q
-%patch0 -p1
+%apply_patches
 
 %build
 %configure2_5x	--disable-static \
@@ -71,11 +70,14 @@ touch %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
 %{_bindir}/%{name}
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
+%{_datadir}/%{name}/modules/%{name}-trust.module
+%{_libdir}/pkcs11/%{name}-trust.so
 %{_sysconfdir}/pkcs11/pkcs11.conf.example
 %ghost %config(noreplace) %{_sysconfdir}/pkcs11/pkcs11.conf
 
 %files -n %{libname}
 %{_libdir}/lib%{name}.so.%{major}*
+%{_libdir}/%{name}/p11-kit-extract-trust
 
 %files -n %{devname}
 %doc %{_datadir}/gtk-doc/html/%{name}

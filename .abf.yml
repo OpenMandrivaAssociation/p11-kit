@@ -1,2 +1,4 @@
+removed_sources:
+  p11-kit-0.14.tar.gz: 02f7139fb1ee3a0d6ef4566f05630bfa4c5606c9
 sources:
-  "p11-kit-0.14.tar.gz": 02f7139fb1ee3a0d6ef4566f05630bfa4c5606c9
+  p11-kit-0.18.2.tar.gz: 27986eedf5307bbf90ffc4de47f5f380384b18f3
