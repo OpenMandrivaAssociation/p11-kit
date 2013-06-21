@@ -10,6 +10,7 @@ License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
 Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
+BuildRequires:	pkgconfig(libtasn1)
 
 %description
 Provides a way to load and enumerate PKCS#11 modules. Provides a standard
