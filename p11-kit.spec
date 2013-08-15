@@ -2,8 +2,8 @@
 %define libname	%mklibname %{name} %{major}
 %define devname	%mklibname %{name} -d
 
-Name:		p11-kit
 Summary:	Load and enumerate PKCS#11 modules
+Name:		p11-kit
 Version:	0.18.2
 Release:	1
 License:	Apache License
@@ -46,8 +46,7 @@ This package contains the development files and headers for %{name}.
 %apply_patches
 
 %build
-%configure2_5x	--disable-static \
-		--disable-rpath
+%configure2_5x	--disable-static
 
 %make
 
@@ -55,7 +54,7 @@ This package contains the development files and headers for %{name}.
 %makeinstall_std
 
 #dirs for configs etc
-%__mkdir_p %{buildroot}%{_sysconfdir}/pkcs11/modules
+mkdir -p %{buildroot}%{_sysconfdir}/pkcs11/modules
 
 #ghost files
 touch %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
@@ -85,3 +84,4 @@ touch %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
 %{_includedir}/%{name}-1
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/%{name}-1.pc
+
