@@ -4,8 +4,8 @@
 
 Summary:	Load and enumerate PKCS#11 modules
 Name:		p11-kit
-Version:	0.18.2
-Release:	5
+Version:	0.20.2
+Release:	1
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
@@ -68,6 +68,7 @@ touch %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
 %files
 %doc AUTHORS NEWS
 %{_bindir}/%{name}
+%{_bindir}/trust
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
 %{_datadir}/%{name}/modules/%{name}-trust.module
@@ -77,7 +78,7 @@ touch %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
 
 %files -n %{libname}
 %{_libdir}/lib%{name}.so.%{major}*
-%{_libdir}/%{name}/p11-kit-extract-trust
+%{_libdir}/%{name}/trust-extract-compat
 
 %files -n %{devname}
 %doc %{_datadir}/gtk-doc/html/%{name}
