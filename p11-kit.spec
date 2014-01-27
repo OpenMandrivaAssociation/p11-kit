@@ -11,6 +11,7 @@ Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
 Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
 BuildRequires:	pkgconfig(libtasn1)
+BuildRequires:	pkgconfig(libffi)
 
 %description
 Provides a way to load and enumerate PKCS#11 modules. Provides a standard
