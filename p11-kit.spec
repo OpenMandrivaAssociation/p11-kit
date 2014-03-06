@@ -2,15 +2,16 @@
 %define libname	%mklibname %{name} %{major}
 %define devname	%mklibname %{name} -d
 
-Name:		p11-kit
 Summary:	Load and enumerate PKCS#11 modules
-Version:	0.18.2
-Release:	2
+Name:		p11-kit
+Version:	0.20.2
+Release:	1
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
 Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
 BuildRequires:	pkgconfig(libtasn1)
+BuildRequires:	pkgconfig(libffi)
 
 %description
 Provides a way to load and enumerate PKCS#11 modules. Provides a standard
@@ -46,8 +47,7 @@ This package contains the development files and headers for %{name}.
 %apply_patches
 
 %build
-%configure2_5x	--disable-static \
-		--disable-rpath
+%configure2_5x	--disable-static
 
 %make
 
@@ -55,7 +55,7 @@ This package contains the development files and headers for %{name}.
 %makeinstall_std
 
 #dirs for configs etc
-%__mkdir_p %{buildroot}%{_sysconfdir}/pkcs11/modules
+mkdir -p %{buildroot}%{_sysconfdir}/pkcs11/modules
 
 #ghost files
 touch %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
@@ -69,6 +69,7 @@ touch %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
 %files
 %doc AUTHORS NEWS
 %{_bindir}/%{name}
+%{_bindir}/trust
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
 %{_datadir}/%{name}/modules/%{name}-trust.module
@@ -78,10 +79,11 @@ touch %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
 
 %files -n %{libname}
 %{_libdir}/lib%{name}.so.%{major}*
-%{_libdir}/%{name}/p11-kit-extract-trust
+%{_libdir}/%{name}/trust-extract-compat
 
 %files -n %{devname}
 %doc %{_datadir}/gtk-doc/html/%{name}
 %{_includedir}/%{name}-1
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/%{name}-1.pc
+
