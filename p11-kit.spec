@@ -33,6 +33,14 @@ they're discoverable.
 Also solves problems with coordinating the use of PKCS#11 by different
 components or libraries living in the same process.
 
+%package        trust
+Summary:        System trust module from %{name}
+Requires:	%{name} = %{version}-%{release}
+
+%description    trust
+The %{name}-trust package contains a system trust PKCS#11 module which
+contains certificate anchors and black lists.
+
 %package -n 	%{devname}
 Summary:	Development files and headers for %{name}
 Group:		Development/Other
@@ -57,29 +65,37 @@ This package contains the development files and headers for %{name}.
 #dirs for configs etc
 mkdir -p %{buildroot}%{_sysconfdir}/pkcs11/modules
 
-#ghost files
-touch %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
+# install the example config file as config file (mga #12696)
+mv %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf.example %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
 
 %check
 %make check
 
-%post
-%create_ghostfile %{_sysconfdir}/pkcs11/pkcs11.conf root root 644
+# remove invalid empty config file installed by default until p11-kit-0.20.1-3 (mga #12696)
+%pretrans -p <lua>
+
+file = io.open("/etc/pkcs11/pkcs11.conf","r")
+
+if (file) then
+  size = file:seek("end")
+  file:close()
+  if (size == 0) then
+    os.remove("/etc/pkcs11/pkcs11.conf")
+  end
+end
 
 %files
-%doc AUTHORS NEWS
+%doc p11-kit/pkcs11.conf.example
 %{_bindir}/%{name}
-%{_bindir}/trust
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
-%{_datadir}/%{name}/modules/%{name}-trust.module
-%{_libdir}/pkcs11/%{name}-trust.so
-%{_sysconfdir}/pkcs11/pkcs11.conf.example
-%ghost %config(noreplace) %{_sysconfdir}/pkcs11/pkcs11.conf
+%config(noreplace) %{_sysconfdir}/pkcs11/pkcs11.conf
+%dir %{_libdir}/p11-kit
+%dir %{_datadir}/p11-kit
+%dir %{_datadir}/p11-kit/modules
 
 %files -n %{libname}
 %{_libdir}/lib%{name}.so.%{major}*
-%{_libdir}/%{name}/trust-extract-compat
 
 %files -n %{devname}
 %doc %{_datadir}/gtk-doc/html/%{name}
@@ -87,3 +103,10 @@ touch %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/%{name}-1.pc
 
+%files trust
+%{_bindir}/trust
+%dir %{_libdir}/pkcs11
+%{_libdir}/pkcs11/p11-kit-trust.so
+%{_libdir}/p11-kit/p11-kit-remote
+%{_datadir}/p11-kit/modules/p11-kit-trust.module
+%{_libdir}/p11-kit/trust-extract-compat
