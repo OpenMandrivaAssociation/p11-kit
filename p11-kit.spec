@@ -12,6 +12,7 @@ Url:		http://p11-glue.freedesktop.org/p11-kit.html
 Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
 BuildRequires:	pkgconfig(libtasn1)
 BuildRequires:	pkgconfig(libffi)
+BuildRequires:	rootcerts
 
 %description
 Provides a way to load and enumerate PKCS#11 modules. Provides a standard
@@ -55,7 +56,7 @@ This package contains the development files and headers for %{name}.
 %apply_patches
 
 %build
-%configure	--disable-static
+%configure
 
 %make
 
