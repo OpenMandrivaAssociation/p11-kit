@@ -4,12 +4,12 @@
 
 Summary:	Load and enumerate PKCS#11 modules
 Name:		p11-kit
-Version:	0.23.2
+Version:	0.23.12
 Release:	2
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
-Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
+Source0:	https://github.com/p11-glue/p11-kit/archive/%{version}.tar.gz
 BuildRequires:	pkgconfig(libtasn1)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	rootcerts
