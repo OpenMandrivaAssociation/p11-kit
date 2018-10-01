@@ -9,7 +9,7 @@ Release:	1
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
-Source0:	https://github.com/p11-glue/p11-kit/archive/%{version}.tar.gz
+Source0:	https://github.com/p11-glue/p11-kit/archive/%{name}-%{version}.tar.gz
 BuildRequires:	pkgconfig(libtasn1)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	rootcerts
