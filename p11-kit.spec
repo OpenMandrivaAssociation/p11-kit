@@ -88,6 +88,7 @@ if (file) then
 end
 
 %files
+%if 0
 %{_bindir}/%{name}
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
@@ -112,3 +113,4 @@ end
 %{_libdir}/p11-kit/p11-kit-remote
 %{_datadir}/p11-kit/modules/p11-kit-trust.module
 %{_libdir}/p11-kit/trust-extract-compat
+%endif
