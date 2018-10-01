@@ -1,11 +1,11 @@
-%define major	0
-%define libname	%mklibname %{name} %{major}
-%define devname	%mklibname %{name} -d
+%define major 0
+%define libname %mklibname %{name} %{major}
+%define devname %mklibname %{name} -d
 
 Summary:	Load and enumerate PKCS#11 modules
 Name:		p11-kit
-Version:	0.23.12
-Release:	3
+Version:	0.23.14
+Release:	1
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
@@ -22,11 +22,11 @@ they're discoverable.
 Also solves problems with coordinating the use of PKCS#11 by different
 components or libraries living in the same process.
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	Library and proxy module for properly loading and sharing PKCS#11 modules
 Group:		System/Libraries
 
-%description -n	%{libname}
+%description -n %{libname}
 Provides a way to load and enumerate PKCS#11 modules. Provides a standard
 configuration setup for installing PKCS#11 modules in such a way that
 they're discoverable.
@@ -34,40 +34,40 @@ they're discoverable.
 Also solves problems with coordinating the use of PKCS#11 by different
 components or libraries living in the same process.
 
-%package        trust
-Summary:        System trust module from %{name}
+%package trust
+Summary:	System trust module from %{name}
 Requires:	%{name} = %{version}-%{release}
 
 %description    trust
 The %{name}-trust package contains a system trust PKCS#11 module which
 contains certificate anchors and black lists.
 
-%package -n 	%{devname}
+%package -n %{devname}
 Summary:	Development files and headers for %{name}
 Group:		Development/Other
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 
-%description -n	%{devname}
+%description -n %{devname}
 This package contains the development files and headers for %{name}.
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -p1
 
 %build
 %configure
 
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
 #dirs for configs etc
 mkdir -p %{buildroot}%{_sysconfdir}/pkcs11/modules
 
 # install the example config file as config file (mga #12696)
 mv %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf.example %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
+
 
 %check
 %make check
