@@ -12,6 +12,8 @@ Url:		http://p11-glue.freedesktop.org/p11-kit.html
 Source0:	https://github.com/p11-glue/p11-kit/archive/%{name}-%{version}.tar.gz
 BuildRequires:	pkgconfig(libtasn1)
 BuildRequires:	pkgconfig(libffi)
+BuildRequires:	pkgconfig(systemd)
+BuildRequires:	systemd-macros
 BuildRequires:	rootcerts
 
 %description
@@ -86,7 +88,6 @@ if (file) then
 end
 
 %files
-%doc p11-kit/pkcs11.conf.example
 %{_bindir}/%{name}
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
