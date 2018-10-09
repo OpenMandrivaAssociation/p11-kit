@@ -88,14 +88,20 @@ if (file) then
 end
 
 %files
-%if 0
+%doc p11-kit/pkcs11.conf.example
 %{_bindir}/%{name}
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
 %config(noreplace) %{_sysconfdir}/pkcs11/pkcs11.conf
-%dir %{_libdir}/p11-kit
+%dir %{_libdir}/pkcs11/
 %dir %{_datadir}/p11-kit
 %dir %{_datadir}/p11-kit/modules
+%{_mandir}/man?/%{name}.*.*
+%{_mandir}/man?/pkcs11.conf.*.*
+%{_libexecdir}/p11-kit/p11-kit-remote
+%{_libexecdir}/p11-kit/p11-kit-server
+%{_userunitdir}/p11-kit-server.service
+%{_userunitdir}/p11-kit-server.socket
 
 %files -n %{libname}
 %{_libdir}/lib%{name}.so.%{major}*
@@ -104,6 +110,7 @@ end
 %doc %{_datadir}/gtk-doc/html/%{name}
 %{_includedir}/%{name}-1
 %{_libdir}/*.so
+%{_libdir}/pkcs11/*.so
 %{_libdir}/pkgconfig/%{name}-1.pc
 
 %files trust
@@ -113,4 +120,9 @@ end
 %{_libdir}/p11-kit/p11-kit-remote
 %{_datadir}/p11-kit/modules/p11-kit-trust.module
 %{_libdir}/p11-kit/trust-extract-compat
-%endif
+
+%{_bindir}/trust
+%dir %{_libdir}/pkcs11
+%{_libdir}/pkcs11/p11-kit-trust.so
+%{_libexecdir}/p11-kit/trust-extract-compat
+%{_mandir}/man?/trust.*.*
