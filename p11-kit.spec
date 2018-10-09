@@ -96,8 +96,6 @@ end
 %dir %{_libdir}/pkcs11/
 %dir %{_datadir}/p11-kit
 %dir %{_datadir}/p11-kit/modules
-%{_mandir}/man?/%{name}.*.*
-%{_mandir}/man?/pkcs11.conf.*.*
 %{_libexecdir}/p11-kit/p11-kit-remote
 %{_libexecdir}/p11-kit/p11-kit-server
 %{_userunitdir}/p11-kit-server.service
@@ -125,4 +123,3 @@ end
 %dir %{_libdir}/pkcs11
 %{_libdir}/pkcs11/p11-kit-trust.so
 %{_libexecdir}/p11-kit/trust-extract-compat
-%{_mandir}/man?/trust.*.*
