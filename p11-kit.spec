@@ -38,7 +38,7 @@ components or libraries living in the same process.
 
 %package trust
 Summary:	System trust module from %{name}
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{EVRD}
 
 %description    trust
 The %{name}-trust package contains a system trust PKCS#11 module which
@@ -47,8 +47,8 @@ contains certificate anchors and black lists.
 %package -n %{devname}
 Summary:	Development files and headers for %{name}
 Group:		Development/Other
-Requires:	%{libname} = %{version}-%{release}
-Provides:	%{name}-devel = %{version}-%{release}
+Requires:	%{libname} = %{EVRD}
+Provides:	%{name}-devel = %{EVRD}
 
 %description -n %{devname}
 This package contains the development files and headers for %{name}.
@@ -93,13 +93,16 @@ end
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
 %config(noreplace) %{_sysconfdir}/pkcs11/pkcs11.conf
-%dir %{_libdir}/pkcs11/
 %dir %{_datadir}/p11-kit
 %dir %{_datadir}/p11-kit/modules
+%dir %{_libexecdir}/p11-kit
+%dir %{_libdir}/pkcs11
 %{_libexecdir}/p11-kit/p11-kit-remote
 %{_libexecdir}/p11-kit/p11-kit-server
 %{_userunitdir}/p11-kit-server.service
 %{_userunitdir}/p11-kit-server.socket
+%{_libdir}/p11-kit-proxy.so
+%{_libdir}/pkcs11/*.so
 
 %files -n %{libname}
 %{_libdir}/lib%{name}.so.%{major}*
@@ -107,19 +110,13 @@ end
 %files -n %{devname}
 %doc %{_datadir}/gtk-doc/html/%{name}
 %{_includedir}/%{name}-1
-%{_libdir}/*.so
+%{_libdir}/lib*%{name}.so
 %{_libdir}/pkcs11/*.so
 %{_libdir}/pkgconfig/%{name}-1.pc
 
 %files trust
 %{_bindir}/trust
-%dir %{_libdir}/pkcs11
 %{_libdir}/pkcs11/p11-kit-trust.so
-%{_libdir}/p11-kit/p11-kit-remote
 %{_datadir}/p11-kit/modules/p11-kit-trust.module
 %{_libdir}/p11-kit/trust-extract-compat
 
-%{_bindir}/trust
-%dir %{_libdir}/pkcs11
-%{_libdir}/pkcs11/p11-kit-trust.so
-%{_libexecdir}/p11-kit/trust-extract-compat
