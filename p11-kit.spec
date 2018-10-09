@@ -118,5 +118,5 @@ end
 %{_bindir}/trust
 %{_libdir}/pkcs11/p11-kit-trust.so
 %{_datadir}/p11-kit/modules/p11-kit-trust.module
-%{_libdir}/p11-kit/trust-extract-compat
+%{_libexecdir}/p11-kit/trust-extract-compat
 
