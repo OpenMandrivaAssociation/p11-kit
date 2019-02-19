@@ -4,8 +4,8 @@
 
 Summary:	Load and enumerate PKCS#11 modules
 Name:		p11-kit
-Version:	0.23.14
-Release:	2
+Version:	0.23.15
+Release:	1
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
@@ -70,13 +70,11 @@ mkdir -p %{buildroot}%{_sysconfdir}/pkcs11/modules
 # install the example config file as config file (mga #12696)
 mv %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf.example %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
 
-
 %check
 %make check
 
 # remove invalid empty config file installed by default until p11-kit-0.20.1-3 (mga #12696)
-%pretrans -p <lua>
-
+%triggerin -p <lua> -- %{name} < 0.23.15
 file = io.open("/etc/pkcs11/pkcs11.conf","r")
 
 if (file) then
@@ -119,4 +117,3 @@ end
 %{_libdir}/pkcs11/p11-kit-trust.so
 %{_datadir}/p11-kit/modules/p11-kit-trust.module
 %{_libexecdir}/p11-kit/trust-extract-compat
-
