@@ -4,17 +4,19 @@
 
 Summary:	Load and enumerate PKCS#11 modules
 Name:		p11-kit
-Version:	0.23.15
+Version:	0.23.18.1
 Release:	1
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
-Source0:	https://github.com/p11-glue/p11-kit/archive/%{name}-%{version}.tar.gz
+Source0:	https://github.com/p11-glue/p11-kit/archive/%{version}.tar.gz
 BuildRequires:	pkgconfig(libtasn1)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(systemd)
 BuildRequires:	systemd-macros
+BuildRequires:	libtasn1-tools
 BuildRequires:	rootcerts
+BuildRequires:	meson
 
 %description
 Provides a way to load and enumerate PKCS#11 modules. Provides a standard
@@ -57,21 +59,23 @@ This package contains the development files and headers for %{name}.
 %autosetup -p1
 
 %build
-%configure
-
-%make_build
+%meson
+%meson_build
 
 %install
-%make_install
+%meson_install
 
 #dirs for configs etc
 mkdir -p %{buildroot}%{_sysconfdir}/pkcs11/modules
 
 # install the example config file as config file (mga #12696)
-mv %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf.example %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
+cp build/p11-kit/pkcs11.conf.example %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
+rm -f %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf.example
+
+%find_lang %{name}
 
 %check
-%make check
+meson test -C build
 
 # remove invalid empty config file installed by default until p11-kit-0.20.1-3 (mga #12696)
 %triggerin -p <lua> -- %{name} < 0.23.15
@@ -85,8 +89,7 @@ if (file) then
   end
 end
 
-%files
-%doc p11-kit/pkcs11.conf.example
+%files -f %%{name}.lang
 %{_bindir}/%{name}
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
@@ -106,7 +109,6 @@ end
 %{_libdir}/lib%{name}.so.%{major}*
 
 %files -n %{devname}
-%doc %{_datadir}/gtk-doc/html/%{name}
 %{_includedir}/%{name}-1
 %{_libdir}/lib*%{name}.so
 %{_libdir}/pkcs11/*.so
@@ -116,4 +118,3 @@ end
 %{_bindir}/trust
 %{_libdir}/pkcs11/p11-kit-trust.so
 %{_datadir}/p11-kit/modules/p11-kit-trust.module
-%{_libexecdir}/p11-kit/trust-extract-compat
