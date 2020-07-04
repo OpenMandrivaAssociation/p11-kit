@@ -5,11 +5,12 @@
 Summary:	Load and enumerate PKCS#11 modules
 Name:		p11-kit
 Version:	0.23.20
-Release:	1
+Release:	2
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
 Source0:	https://github.com/p11-glue/p11-kit/archive/%{version}.tar.gz
+BuildRequires:	pkgconfig(bash-completion)
 BuildRequires:	pkgconfig(libtasn1)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(systemd)
@@ -59,7 +60,7 @@ This package contains the development files and headers for %{name}.
 %autosetup -p1
 
 %build
-%meson
+%meson -Dtrust_paths=%{_sysconfdir}/pki/ca-trust/source:%{_datadir}/pki/ca-trust-source
 %meson_build
 
 %install
@@ -104,6 +105,7 @@ end
 %{_userunitdir}/p11-kit-server.socket
 %{_libdir}/p11-kit-proxy.so
 %{_libdir}/pkcs11/*.so
+%{_datadir}/bash-completion/completions/trust
 
 %files -n %{libname}
 %{_libdir}/lib%{name}.so.%{major}*
@@ -118,3 +120,4 @@ end
 %{_bindir}/trust
 %{_libdir}/pkcs11/p11-kit-trust.so
 %{_datadir}/p11-kit/modules/p11-kit-trust.module
+%{_datadir}/bash-completion/completions/p11-kit
