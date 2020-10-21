@@ -5,7 +5,7 @@
 Summary:	Load and enumerate PKCS#11 modules
 Name:		p11-kit
 Version:	0.23.21
-Release:	1
+Release:	2
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
@@ -73,6 +73,10 @@ mkdir -p %{buildroot}%{_sysconfdir}/pkcs11/modules
 cp build/p11-kit/pkcs11.conf.example %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
 rm -f %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf.example
 
+# (tpg) enable p11-kit-server.socket in userland
+mkdir -p %{buildroot}%{_userunitdir}/sockets.target.wants
+ln -sf %{_userunitdir}/p11-kit-server.socket %{buildroot}%{_userunitdir}/sockets.target.wants/p11-kit-server.socket
+
 %find_lang %{name}
 
 %check
@@ -103,6 +107,7 @@ end
 %{_libexecdir}/p11-kit/p11-kit-server
 %{_userunitdir}/p11-kit-server.service
 %{_userunitdir}/p11-kit-server.socket
+%{_userunitdir}/sockets.target.wants/p11-kit-server.socket
 %{_libdir}/p11-kit-proxy.so
 %{_libdir}/pkcs11/*.so
 %{_datadir}/bash-completion/completions/trust
