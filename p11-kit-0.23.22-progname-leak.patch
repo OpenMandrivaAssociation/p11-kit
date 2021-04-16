@@ -1,0 +1,87 @@
+From 40fbf74b02b8ad6625e3aa49d2cdef2b52e47a04 Mon Sep 17 00:00:00 2001
+From: Daiki Ueno <ueno@gnu.org>
+Date: Mon, 25 Jan 2021 18:24:01 +0100
+Subject: [PATCH] compat: Pacify ASan complaints on intentionally leaked buffer
+
+Reported by Viktor Ashirov in:
+https://bugzilla.redhat.com/show_bug.cgi?id=1905581
+---
+ common/compat.c  | 25 +++++++++++++++++++------
+ common/library.c |  9 +++++++++
+ 2 files changed, 28 insertions(+), 6 deletions(-)
+
+diff --git a/common/compat.c b/common/compat.c
+index 4390cef..d6c5af6 100644
+--- a/common/compat.c
++++ b/common/compat.c
+@@ -100,6 +100,19 @@ extern char *program_invocation_short_name;
+ extern char *__progname;
+ #endif
+ 
++#ifdef __linux__
++/* This symbol is also defined in library.c so as to be freed by the library
++ * destructor.  If weak symbols are not supported nor library.c is not linked we
++ * simply leak the memory allocated with realpath().  */
++#ifdef __GNUC__
++extern char *p11_program_realpath;
++
++char *p11_program_realpath __attribute__((weak));
++#else
++static char *p11_program_realpath;
++#endif
++#endif
++
+ const char *
+ getprogname (void)
+ {
+@@ -124,14 +137,14 @@ getprogname (void)
+ 		 * Logic borrowed from:
+ 		 * <https://github.com/mesa3d/mesa/commit/759b94038987bb983398cd4b1d2cb1c8f79817a9>.
+ 		 */
+-		static char *buf;
+-
+-		if (!buf)
+-			buf = realpath ("/proc/self/exe", NULL);
++		if (!p11_program_realpath)
++			p11_program_realpath = realpath ("/proc/self/exe", NULL);
+ 
+-		if (buf && strncmp (buf, name, strlen (buf)) == 0)
++		if (p11_program_realpath &&
++		    strncmp (p11_program_realpath, name,
++			     strlen (p11_program_realpath)) == 0)
+ 			/* Use the executable path if the prefix matches. */
+-			name = strrchr (buf, '/') + 1;
++			name = strrchr (p11_program_realpath, '/') + 1;
+ 		else
+ 			/* Otherwise fall back to
+ 			 * program_invocation_short_name. */
+diff --git a/common/library.c b/common/library.c
+index 891344a..1581702 100644
+--- a/common/library.c
++++ b/common/library.c
+@@ -82,6 +82,11 @@ unsigned int p11_forkid = 1;
+ extern locale_t p11_message_locale;
+ #endif
+ 
++#ifdef __linux__
++/* used only under __linux__ in the getprogname() emulation in compat.c. */
++char *p11_program_realpath;
++#endif
++
+ static char *
+ thread_local_message (void)
+ {
+@@ -190,6 +195,10 @@ p11_library_uninit (void)
+ #endif
+ 	p11_mutex_uninit (&p11_virtual_mutex);
+ 	p11_mutex_uninit (&p11_library_mutex);
++
++#ifdef __linux__
++	free (p11_program_realpath);
++#endif
+ }
+ 
+ #endif /* OS_UNIX */
+-- 
+2.29.2
+

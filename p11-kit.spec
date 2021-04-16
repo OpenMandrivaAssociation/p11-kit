@@ -10,6 +10,7 @@ License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
 Source0:	https://github.com/p11-glue/p11-kit/archive/%{version}.tar.xz
+Patch0:		https://src.fedoraproject.org/rpms/p11-kit/raw/rawhide/f/p11-kit-0.23.22-progname-leak.patch
 BuildRequires:	pkgconfig(bash-completion)
 BuildRequires:	pkgconfig(libtasn1)
 BuildRequires:	pkgconfig(libffi)
@@ -123,6 +124,7 @@ end
 
 %files trust
 %{_bindir}/trust
+%{_libexecdir}/p11-kit/trust-extract-compat
 %{_libdir}/pkcs11/p11-kit-trust.so
 %{_datadir}/p11-kit/modules/p11-kit-trust.module
 %{_datadir}/bash-completion/completions/p11-kit
