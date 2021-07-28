@@ -4,13 +4,12 @@
 
 Summary:	Load and enumerate PKCS#11 modules
 Name:		p11-kit
-Version:	0.23.22
+Version:	0.24.0
 Release:	1
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
-Source0:	https://github.com/p11-glue/p11-kit/archive/%{version}.tar.xz
-Patch0:		https://src.fedoraproject.org/rpms/p11-kit/raw/rawhide/f/p11-kit-0.23.22-progname-leak.patch
+Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/p11-kit-%{version}.tar.xz
 BuildRequires:	pkgconfig(bash-completion)
 BuildRequires:	pkgconfig(libtasn1)
 BuildRequires:	pkgconfig(libffi)
