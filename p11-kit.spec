@@ -5,16 +5,18 @@
 Summary:	Load and enumerate PKCS#11 modules
 Name:		p11-kit
 Version:	0.24.0
-Release:	1
+Release:	2
 License:	Apache License
 Group:		System/Libraries
 Url:		http://p11-glue.freedesktop.org/p11-kit.html
 Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/p11-kit-%{version}.tar.xz
+# (tpg) do not run under sddm user
+Patch0:		p11-kit-0.24.0-conditions-user-sddm.patch
 BuildRequires:	pkgconfig(bash-completion)
 BuildRequires:	pkgconfig(libtasn1)
 BuildRequires:	pkgconfig(libffi)
 BuildRequires:	pkgconfig(systemd)
-BuildRequires:	systemd-macros
+BuildRequires:	systemd-rpm-macros
 BuildRequires:	libtasn1-tools
 BuildRequires:	rootcerts
 BuildRequires:	meson

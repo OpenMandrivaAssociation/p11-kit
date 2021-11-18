@@ -1,0 +1,10 @@
+diff -Naur p11-kit-0.24.0/p11-kit/p11-kit-server.socket p11-kit-0.24.0.tpg/p11-kit/p11-kit-server.socket
+--- p11-kit-0.24.0/p11-kit/p11-kit-server.socket	2020-12-11 14:48:46.000000000 +0000
++++ p11-kit-0.24.0.tpg/p11-kit/p11-kit-server.socket	2021-11-18 13:47:15.511259788 +0000
+@@ -1,5 +1,6 @@
+ [Unit]
+ Description=p11-kit server
++ConditionUser=!sddm
+ 
+ [Socket]
+ Priority=6
