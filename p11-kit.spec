@@ -1,6 +1,12 @@
 %define major 0
-%define libname %mklibname %{name} %{major}
+%define oldlibname %mklibname %{name} 0
+%define libname %mklibname %{name}
 %define devname %mklibname %{name} -d
+
+# bootstrap mode disables systemd support, to avoid a circular
+# dependency (systemd requires gnutls, gnutls requires p11-kit,
+# but p11-kit requires systemd)
+%bcond_with bootstrap
 
 Summary:	Load and enumerate PKCS#11 modules
 Name:		p11-kit
@@ -15,7 +21,9 @@ Patch0:		p11-kit-0.24.0-conditions-user-sddm.patch
 BuildRequires:	pkgconfig(bash-completion)
 BuildRequires:	pkgconfig(libtasn1)
 BuildRequires:	pkgconfig(libffi)
+%if ! %{with bootstrap}
 BuildRequires:	pkgconfig(systemd)
+%endif
 BuildRequires:	systemd-rpm-macros
 BuildRequires:	libtasn1-tools
 BuildRequires:	rootcerts
@@ -32,6 +40,7 @@ components or libraries living in the same process.
 %package -n %{libname}
 Summary:	Library and proxy module for properly loading and sharing PKCS#11 modules
 Group:		System/Libraries
+%rename %{oldlibname}
 
 %description -n %{libname}
 Provides a way to load and enumerate PKCS#11 modules. Provides a standard
@@ -60,9 +69,13 @@ This package contains the development files and headers for %{name}.
 
 %prep
 %autosetup -p1
+%meson \
+%if %{with bootstrap}
+	-Dsystemd=disabled \
+%endif
+	-Dtrust_paths=%{_sysconfdir}/pki/ca-trust/source:%{_datadir}/pki/ca-trust-source
 
 %build
-%meson -Dtrust_paths=%{_sysconfdir}/pki/ca-trust/source:%{_datadir}/pki/ca-trust-source
 %meson_build
 
 %install
@@ -75,14 +88,18 @@ mkdir -p %{buildroot}%{_sysconfdir}/pkcs11/modules
 cp build/p11-kit/pkcs11.conf.example %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf
 rm -f %{buildroot}%{_sysconfdir}/pkcs11/pkcs11.conf.example
 
+%if ! %{with bootstrap}
 # (tpg) enable p11-kit-server.socket in userland
 mkdir -p %{buildroot}%{_userunitdir}/sockets.target.wants
 ln -sf %{_userunitdir}/p11-kit-server.socket %{buildroot}%{_userunitdir}/sockets.target.wants/p11-kit-server.socket
+%endif
 
 %find_lang %{name}
 
+%if ! %{cross_compiling}
 %check
 meson test -C build
+%endif
 
 # remove invalid empty config file installed by default until p11-kit-0.20.1-3 (mga #12696)
 %triggerin -p <lua> -- %{name} < 0.23.15
@@ -107,9 +124,11 @@ end
 %dir %{_libdir}/pkcs11
 %{_libexecdir}/p11-kit/p11-kit-remote
 %{_libexecdir}/p11-kit/p11-kit-server
+%if ! %{with bootstrap}
 %{_userunitdir}/p11-kit-server.service
 %{_userunitdir}/p11-kit-server.socket
 %{_userunitdir}/sockets.target.wants/p11-kit-server.socket
+%endif
 %{_libdir}/p11-kit-proxy.so
 %{_libdir}/pkcs11/*.so
 %{_datadir}/bash-completion/completions/trust
