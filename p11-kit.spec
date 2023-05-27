@@ -94,6 +94,12 @@ mkdir -p %{buildroot}%{_userunitdir}/sockets.target.wants
 ln -sf %{_userunitdir}/p11-kit-server.socket %{buildroot}%{_userunitdir}/sockets.target.wants/p11-kit-server.socket
 %endif
 
+%if %{cross_compiling}
+# The Makefiles botch the installation of bash-completions related files
+mv %{buildroot}%{_prefix}/%{_target_platform}%{_datadir}/bash-completion %{buildroot}%{_datadir}
+rm -rf %{buildroot}%{_prefix}/%{_target_platform}
+%endif
+
 %find_lang %{name}
 
 %if ! %{cross_compiling}
