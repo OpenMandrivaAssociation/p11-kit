@@ -18,6 +18,7 @@ Url:		http://p11-glue.freedesktop.org/p11-kit.html
 Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/p11-kit-%{version}.tar.xz
 # (tpg) do not run under sddm user
 Patch0:		p11-kit-0.24.0-conditions-user-sddm.patch
+Patch1:		p11-kit-0.25.0-crosscompile.patch
 BuildRequires:	pkgconfig(bash-completion)
 BuildRequires:	pkgconfig(libtasn1)
 BuildRequires:	pkgconfig(libffi)
