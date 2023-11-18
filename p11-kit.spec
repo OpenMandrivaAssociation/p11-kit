@@ -3,6 +3,10 @@
 %define libname %mklibname %{name}
 %define devname %mklibname %{name} -d
 
+# Workaround for the configure checks for symbol versioning
+# being broken
+%global build_ldflags %{build_ldflags} -Wl,--undefined-version
+
 # bootstrap mode disables systemd support, to avoid a circular
 # dependency (systemd requires gnutls, gnutls requires p11-kit,
 # but p11-kit requires systemd)
@@ -10,7 +14,7 @@
 
 Summary:	Load and enumerate PKCS#11 modules
 Name:		p11-kit
-Version:	0.25.0
+Version:	0.25.3
 Release:	1
 License:	Apache License
 Group:		System/Libraries
@@ -18,7 +22,6 @@ Url:		http://p11-glue.freedesktop.org/p11-kit.html
 Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/p11-kit-%{version}.tar.xz
 # (tpg) do not run under sddm user
 Patch0:		p11-kit-0.24.0-conditions-user-sddm.patch
-Patch1:		p11-kit-0.25.0-crosscompile.patch
 BuildRequires:	pkgconfig(bash-completion)
 BuildRequires:	pkgconfig(libtasn1)
 BuildRequires:	pkgconfig(libffi)
