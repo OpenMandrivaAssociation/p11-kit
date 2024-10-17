@@ -18,7 +18,7 @@ Version:	0.25.5
 Release:	1
 License:	Apache License
 Group:		System/Libraries
-Url:		http://p11-glue.freedesktop.org/p11-kit.html
+Url:		https://p11-glue.freedesktop.org/p11-kit.html
 Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/p11-kit-%{version}.tar.xz
 # (tpg) do not run under sddm user
 Patch0:		p11-kit-0.24.0-conditions-user-sddm.patch
