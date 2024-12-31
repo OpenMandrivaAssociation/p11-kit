@@ -123,7 +123,7 @@ if (file) then
   end
 end
 
-%files -f %%{name}.lang
+%files -f %{name}.lang
 %{_bindir}/%{name}
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
