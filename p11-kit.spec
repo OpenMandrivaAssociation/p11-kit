@@ -104,7 +104,7 @@ mv %{buildroot}%{_prefix}/%{_target_platform}%{_datadir}/bash-completion %{build
 rm -rf %{buildroot}%{_prefix}/%{_target_platform}
 %endif
 
-%find_lang %{name}
+#find_lang %{name}
 
 %if ! %{cross_compiling}
 %check
@@ -123,7 +123,8 @@ if (file) then
   end
 end
 
-%files -f %{name}.lang
+%files 
+#-f %{name}.lang
 %{_bindir}/%{name}
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
