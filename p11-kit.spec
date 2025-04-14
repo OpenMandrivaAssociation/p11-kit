@@ -15,7 +15,7 @@
 Summary:	Load and enumerate PKCS#11 modules
 Name:		p11-kit
 Version:	0.25.5
-Release:	1
+Release:	2
 License:	Apache License
 Group:		System/Libraries
 Url:		https://p11-glue.freedesktop.org/p11-kit.html
@@ -32,6 +32,7 @@ BuildRequires:	systemd-rpm-macros
 BuildRequires:	libtasn1-tools
 BuildRequires:	rootcerts
 BuildRequires:	meson
+BuildRequires:	gettext
 
 %description
 Provides a way to load and enumerate PKCS#11 modules. Provides a standard
@@ -104,7 +105,7 @@ mv %{buildroot}%{_prefix}/%{_target_platform}%{_datadir}/bash-completion %{build
 rm -rf %{buildroot}%{_prefix}/%{_target_platform}
 %endif
 
-#find_lang %{name}
+%find_lang %{name}
 
 %if ! %{cross_compiling}
 %check
@@ -123,8 +124,7 @@ if (file) then
   end
 end
 
-%files 
-#-f %{name}.lang
+%files -f %{name}.lang
 %{_bindir}/%{name}
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
