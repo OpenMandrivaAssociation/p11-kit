@@ -14,8 +14,8 @@
 
 Summary:	Load and enumerate PKCS#11 modules
 Name:		p11-kit
-Version:	0.25.5
-Release:	2
+Version:	0.26.4
+Release:	1
 License:	Apache License
 Group:		System/Libraries
 Url:		https://p11-glue.freedesktop.org/p11-kit.html
