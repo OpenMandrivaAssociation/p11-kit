@@ -143,6 +143,8 @@ end
 %{_libdir}/p11-kit-proxy.so
 %{_libdir}/pkcs11/*.so
 %{_datadir}/bash-completion/completions/trust
+%{_datadir}/zsh/site-functions/_p11-kit
+%{_datadir}/zsh/site-functions/_trust
 
 %files -n %{libname}
 %{_libdir}/lib%{name}.so.%{major}*
